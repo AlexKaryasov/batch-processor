@@ -29,6 +29,7 @@ type BatchService struct {
 	Timeout          int
 }
 
+//function to initialize each BatchService argument from the CLI
 func setFieldToBatchService(message string, field *int) {
 	fmt.Println(message)
 	for {
@@ -41,6 +42,9 @@ func setFieldToBatchService(message string, field *int) {
 	}
 }
 
+// MakeNextBatch function to prepare next batch for the BatchService.Process
+// returns slice with size less than the maximum batch size in case if this is the last batch
+//otherwise it returns slice with size equal to the maximum batch size
 func MakeNextBatch(items *[]Item, startIndex int, batchService BatchService) []Item {
 	if startIndex+batchService.BatchSize >= batchService.NumberOfElements {
 		return (*items)[startIndex:]
@@ -48,6 +52,7 @@ func MakeNextBatch(items *[]Item, startIndex int, batchService BatchService) []I
 	return (*items)[startIndex : startIndex+batchService.BatchSize]
 }
 
+// Process is the implementation of abstract service
 func (bs BatchService) Process(ctx context.Context, batch Batch) error {
 	if len(batch) == 0 {
 		return ErrNothingToProcess

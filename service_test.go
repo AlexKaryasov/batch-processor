@@ -62,7 +62,8 @@ func TestProcess(t *testing.T) {
 				items[i] = struct{}{}
 			}
 			batchService := BatchService{len(items), testCase.MaxBatchSize, DefaultTimeout}
-			timeoutCtx, _ := context.WithTimeout(context.Background(), time.Duration(DefaultTimeout)*time.Second)
+			timeoutCtx, cancel := context.WithTimeout(context.Background(), time.Duration(DefaultTimeout)*time.Second)
+			defer cancel()
 			out := batchService.Process(timeoutCtx, items)
 			if out != testCase.ExpectedError {
 				t.Errorf("expected %s error, got %s", testCase.ExpectedError, out)

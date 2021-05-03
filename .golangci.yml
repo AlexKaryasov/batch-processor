@@ -1,0 +1,20 @@
+run:
+  timeout: 30s
+  issues-exit-code: 2
+
+linters-settings:
+  goconst:
+    min-len: 3
+    min-occurrences: 5
+  gofmt:
+    simplify: true
+  golint:
+    min-confidence: 0
+  govet:
+    check-shadowing: true
+  lll:
+    line-length: 100
+
+linters:
+  disable:
+    - deadcode
